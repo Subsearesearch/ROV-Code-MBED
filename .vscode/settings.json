@@ -1,0 +1,11 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "C_Cpp.addWorkspaceRootToIncludePath": false,
+    "C_Cpp.intelliSenseEngine": "Tag Parser",
+    "editor.formatOnSave": true,
+    "files.associations": {
+        "*.tcc": "cpp",
+        "fstream": "cpp",
+        "system_error": "cpp"
+    }
+}
