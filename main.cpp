@@ -27,6 +27,12 @@
 
 DigitalOut led1(LED1);
 
+// Vector3 feedbackLoop(const Quaternion &setpoint, const Quaternion &orientation, const Vector3 &velocity, const float pq, const float pw)
+// {
+//     Quaternion error = setpoint.difference(orientation);
+//     return -pq * error.v - pw * velocity;
+// }
+
 void cb()
 {
     led1 = !led1;
@@ -51,7 +57,7 @@ int main()
     TCPServer srv;
     TCPSocket client_sock;
     SocketAddress client_addr;
-    char *buffer = new char[256];
+    char buffer[256];
 
     /* Open the server on ethernet stack */
     srv.open(&eth);
@@ -67,10 +73,22 @@ int main()
            client_addr.get_port());
     strcpy(buffer, "Hello \n\r");
     client_sock.send(buffer, strlen(buffer));
-    client_sock.recv(buffer, 256);
-    printf("Got message");
-    client_sock.close();
-    delete[] buffer;
+    int ret;
+    while (true)
+    {
+        ret = client_sock.recv(buffer, sizeof(buffer) - 1);
+        if (ret <= 0)
+            break;
+        buffer[ret] = '\0';
+        json data = buffer;
+        printf("%s\n", data["ctrl"]);
+        // printf("Received %d chars from server:\n%s\n", ret, buffer); //["ctrl"]);
+    }
+    // client_sock.close();
+    // delete[] buffer;
+    while (1)
+    {
+    }
 
     // printf("The target IP address is '%s'\n", eth.get_ip_address());
 
