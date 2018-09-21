@@ -7,10 +7,12 @@ socket.on('connect', () => {
   socket.write(
     JSON.stringify({
       ctrl: {
-        quat: { w: 0.3681245526846781, x: 0.9297764858882513, y: 0, z: 0 },
-        lin: { x: 0, y: 0.45, z: 0 },
-        pq: 1,
-        pw: 1
+        xRot: 0,
+        yRot: 0,
+        zRot: 0,
+        xLin: 0,
+        yLin: 0,
+        zLin: 0
       }
     })
   )
