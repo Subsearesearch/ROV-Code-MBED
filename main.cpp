@@ -64,28 +64,15 @@ int main()
     // printf("%s\n", buffer);
     MbedJSONValue data;
     const char *json = &buffer[ret];
-    // bool my_bool;
-    // double x_lin;
-    // double y_lin;
-    // double z_lin;
-    // double x_rot;
-    // double y_rot;
-    // double z_rot;
-    //parse the previous string and fill the object data
     parse(data, json);
-    double x_lin = data["ctrl"]["xLin"].get<double>();
-    double y_lin = data["ctrl"]["yLin"].get<double>();
-    double z_lin = data["ctrl"]["zLin"].get<double>();
-    double x_rot = data["ctrl"]["xRot"].get<double>();
-    double y_rot = data["ctrl"]["yRot"].get<double>();
-    double z_rot = data["ctrl"]["zLin"].get<double>();
+    // Values are between -100 and 100
+    int x_lin = data["ctrl"]["xLin"].get<int>();
+    int y_lin = data["ctrl"]["yLin"].get<int>();
+    int z_lin = data["ctrl"]["zLin"].get<int>();
+    int x_rot = data["ctrl"]["xRot"].get<int>();
+    int y_rot = data["ctrl"]["yRot"].get<int>();
+    int z_rot = data["ctrl"]["zLin"].get<int>();
     printf("%4.2f\n", z_rot);
-    // x_lin = data["ctrl"]["xLin"].get<double>();
-    // y_lin = data["ctrl"]["yLin"].get<double>();
-    // z_lin = data["ctrl"]["zLin"].get<double>();
-    // x_rot = data["ctrl"]["xRot"].get<double>();
-    // y_rot = data["ctrl"]["yRot"].get<double>();
-    // z_rot = data["ctrl"]["zLin"].get<double>();
     int bl = 0;
     int br = 0;
     int fl = 0;
@@ -105,20 +92,16 @@ int main()
     fl -= x_rot;
     fr += x_rot;
     bl += x_rot;
-    // make sure highest is 1
+    // make sure highest is 100
     int max;
-    // max = Math.max(Math.abs(fr, fl, br, bl)) if (max > 1);
     max = fmax(fmax(abs(fr), abs(fl)), fmax(abs(br), abs(bl)));
+    if (max > 100)
     {
       fr /= max;
       fl /= max;
       br /= max;
       bl /= max;
     }
-    /* console.log(fl);
-    console.log(fr);
-    console.log(bl);
-    console.log(br); */
     int f = 0;
     int b = 0;
     int l = 0;
@@ -135,12 +118,11 @@ int main()
     // y_lin (front and back, + is forward)
     l += y_lin;
     r += y_lin;
-    // make sure highest is 1
-    // max = Math.max(Math.abs(f, b, r, l));
+    // make sure highest is 100
     max = fmax(fmax(abs(f), abs(b)), fmax(abs(r), abs(l)));
 
     printf("%i\n", f);
-    if (max > 1)
+    if (max > 100)
     {
       f /= max;
       b /= max;
@@ -148,17 +130,16 @@ int main()
       l /= max;
     }
 
-    // Convert to seconds (for pwm)
-    f = 0.004 * f + 0.0015;
-    b = 0.004 * b + 0.0015;
-    l = 0.004 * l + 0.0015;
-    r = 0.004 * r + 0.0015;
-    fr = 0.004 * fr + 0.0015;
-    fl = 0.004 * fl + 0.0015;
-    br = 0.004 * br + 0.0015;
-    bl = 0.004 * bl + 0.0015;
-    // printf("my_bool: %s\r\n", my_bool ? "true" : "false");
-    // printf("Received %d chars from server:\n%s\n", ret, buffer); //["ctrl"]);
+    // Convert to micro seconds (for pwm)
+    f = 4 * f + 1500;
+    b = 4 * b + 1500;
+    l = 4 * l + 1500;
+    r = 4 * r + 1500;
+    fr = 4 * fr + 1500;
+    fl = 4 * fl + 1500;
+    br = 4 * br + 1500;
+    bl = 4 * bl + 1500;
+    // pulsewidth_us(l)
   }
   // client_sock.close();
   // delete[] buffer;
