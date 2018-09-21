@@ -60,19 +60,18 @@ int main()
     ret = client_sock.recv(buffer, sizeof(buffer) - 1);
     if (ret <= 0)
       break;
-    buffer[ret] = '\0';
-    // printf("%s\n", buffer);
     MbedJSONValue data;
+    // printf("%s\n", buffer);
     const char *json = &buffer[ret];
-    parse(data, json);
+    parse(data, buffer);
     // Values are between -100 and 100
     int x_lin = data["ctrl"]["xLin"].get<int>();
     int y_lin = data["ctrl"]["yLin"].get<int>();
     int z_lin = data["ctrl"]["zLin"].get<int>();
     int x_rot = data["ctrl"]["xRot"].get<int>();
     int y_rot = data["ctrl"]["yRot"].get<int>();
-    int z_rot = data["ctrl"]["zLin"].get<int>();
-    printf("%4.2f\n", z_rot);
+    int z_rot = data["ctrl"]["zRot"].get<int>();
+    // printf("%d\n", z_rot);
     int bl = 0;
     int br = 0;
     int fl = 0;
@@ -121,7 +120,6 @@ int main()
     // make sure highest is 100
     max = fmax(fmax(abs(f), abs(b)), fmax(abs(r), abs(l)));
 
-    printf("%i\n", f);
     if (max > 100)
     {
       f /= max;
@@ -139,7 +137,9 @@ int main()
     fl = 4 * fl + 1500;
     br = 4 * br + 1500;
     bl = 4 * bl + 1500;
-    // pulsewidth_us(l)
+    // printf("%d\n", f);
+    // printf("%d\n", r);
+    // pulsewidth_us(f)
   }
   // client_sock.close();
   // delete[] buffer;
