@@ -7,6 +7,14 @@
 #include <string>
 #include "Quaternion.h"
 
+PwmOut f_pwm(PC_7);
+PwmOut b_pwm(PD_14);
+PwmOut l_pwm(PF_8);
+PwmOut r_pwm(PF_7);
+PwmOut fl_pwm(PB_15);
+PwmOut fr_pwm(PB_13);
+PwmOut bl_pwm(PA_5);
+PwmOut br_pwm(PA_6);
 DigitalOut led1(LED1);
 
 // Vector3 feedbackLoop(const Quaternion &setpoint, const Quaternion &orientation, const Vector3 &velocity, const float pq, const float pw)
@@ -21,6 +29,16 @@ void cb()
 
 int main()
 {
+  // f_pwm.period(1.0f);
+  f_pwm.period_ms(20);
+  b_pwm.period_ms(20);
+  l_pwm.period_ms(20);
+  r_pwm.period_ms(20);
+  fl_pwm.period_ms(20);
+  fr_pwm.period_ms(20);
+  bl_pwm.period_ms(20);
+  br_pwm.period_ms(20);
+  // f_pwm.pulsewidth_us(1500);
   printf("Basic HTTP server example\n");
 
   EthernetInterface eth;
@@ -129,17 +147,23 @@ int main()
     }
 
     // Convert to micro seconds (for pwm)
-    f = 4 * f + 1500;
-    b = 4 * b + 1500;
-    l = 4 * l + 1500;
-    r = 4 * r + 1500;
-    fr = 4 * fr + 1500;
-    fl = 4 * fl + 1500;
-    br = 4 * br + 1500;
-    bl = 4 * bl + 1500;
+    f = 20000 - (4 * f + 1500);
+    b = 20000 - (4 * b + 1500);
+    l = 20000 - (4 * l + 1500);
+    r = 20000 - (4 * r + 1500);
+    fr = 20000 - (4 * fr + 1500);
+    fl = 20000 - (4 * fl + 1500);
+    br = 20000 - (4 * br + 1500);
+    bl = 20000 - (4 * bl + 1500);
     // printf("%d\n", f);
-    // printf("%d\n", r);
-    // pulsewidth_us(f)
+    f_pwm.pulsewidth_us(f);
+    b_pwm.pulsewidth_us(b);
+    l_pwm.pulsewidth_us(l);
+    r_pwm.pulsewidth_us(r);
+    fl_pwm.pulsewidth_us(fl);
+    fr_pwm.pulsewidth_us(fr);
+    bl_pwm.pulsewidth_us(bl);
+    br_pwm.pulsewidth_us(br);
   }
   // client_sock.close();
   // delete[] buffer;
