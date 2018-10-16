@@ -7,14 +7,14 @@
 #include <string>
 #include "Quaternion.h"
 
-PwmOut f_pwm(PC_7);
-PwmOut b_pwm(PD_14);
+PwmOut f_pwm(PA_5);
+PwmOut b_pwm(PA_6);
 PwmOut l_pwm(PF_8);
 PwmOut r_pwm(PF_7);
 PwmOut fl_pwm(PB_15);
-PwmOut fr_pwm(PB_13);
-PwmOut bl_pwm(PA_5);
-PwmOut br_pwm(PA_6);
+PwmOut fr_pwm(PE_14);
+PwmOut bl_pwm(PC_7);
+PwmOut br_pwm(PD_14);
 DigitalOut led1(LED1);
 
 // Vector3 feedbackLoop(const Quaternion &setpoint, const Quaternion &orientation, const Vector3 &velocity, const float pq, const float pw)
@@ -107,7 +107,7 @@ int main()
     // x_rot (tilt up (-) and down (+))
     fr -= x_rot;
     fl -= x_rot;
-    fr += x_rot;
+    br += x_rot;
     bl += x_rot;
     // make sure highest is 100
     int max;
@@ -155,7 +155,7 @@ int main()
     fl = 20000 - (4 * fl + 1500);
     br = 20000 - (4 * br + 1500);
     bl = 20000 - (4 * bl + 1500);
-    // printf("%d\n", f);
+    // printf("%d\n", fr);
     f_pwm.pulsewidth_us(f);
     b_pwm.pulsewidth_us(b);
     l_pwm.pulsewidth_us(l);
