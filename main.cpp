@@ -7,14 +7,14 @@
 #include <string>
 #include "Quaternion.h"
 
-PwmOut f_pwm(PA_5);
-PwmOut b_pwm(PA_6);
-PwmOut l_pwm(PF_8);
-PwmOut r_pwm(PF_7);
-PwmOut fl_pwm(PB_15);
-PwmOut fr_pwm(PE_14);
-PwmOut bl_pwm(PC_7);
-PwmOut br_pwm(PD_14);
+PwmOut f_pwm(PB_14);
+PwmOut b_pwm(PD_15);
+PwmOut l_pwm(PA_6);
+PwmOut r_pwm(PB_15);
+PwmOut fl_pwm(PC_7);
+PwmOut fr_pwm(PA_15);
+PwmOut bl_pwm(PB_13);
+PwmOut br_pwm(PB_5);
 DigitalOut led1(LED1);
 
 // Vector3 feedbackLoop(const Quaternion &setpoint, const Quaternion &orientation, const Vector3 &velocity, const float pq, const float pw)
