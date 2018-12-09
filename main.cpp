@@ -147,14 +147,14 @@ int main()
     }
 
     // Convert to micro seconds (for pwm)
-    f = 20000 - (4 * f + 1500);
-    b = 20000 - (4 * b + 1500);
-    l = 20000 - (4 * l + 1500);
-    r = 20000 - (4 * r + 1500);
-    fr = 20000 - (4 * fr + 1500);
-    fl = 20000 - (4 * fl + 1500);
-    br = 20000 - (4 * br + 1500);
-    bl = 20000 - (4 * bl + 1500);
+    f = (4 * f + 1500);
+    b = (4 * b + 1500);
+    l = (4 * l + 1500);
+    r = (4 * r + 1500);
+    fr = (4 * fr + 1500);
+    fl = (4 * fl + 1500);
+    br = (4 * br + 1500);
+    bl = (4 * bl + 1500);
     // printf("%d\n", fr);
     f_pwm.pulsewidth_us(f);
     b_pwm.pulsewidth_us(b);
