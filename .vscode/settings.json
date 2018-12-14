@@ -7,6 +7,8 @@
       "*.tcc": "cpp",
       "fstream": "cpp",
       "system_error": "cpp",
-      "istream": "cpp"
+      "istream": "cpp",
+      "cmath": "cpp",
+      "cstdlib": "cpp"
     }
   }

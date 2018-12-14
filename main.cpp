@@ -7,14 +7,22 @@
 #include <string>
 #include "Quaternion.h"
 
-PwmOut f_pwm(PB_14);
-PwmOut b_pwm(PD_15);
-PwmOut l_pwm(PA_6);
-PwmOut r_pwm(PB_15);
+PwmOut f_pwm(PB_15);
+PwmOut b_pwm(PA_6);
+PwmOut l_pwm(PD_14);
+PwmOut r_pwm(PD_15);
 PwmOut fl_pwm(PC_7);
 PwmOut fr_pwm(PA_15);
-PwmOut bl_pwm(PB_13);
+PwmOut bl_pwm(PC_6);
 PwmOut br_pwm(PB_5);
+int last_bl = 0;
+int last_br = 0;
+int last_fl = 0;
+int last_fr = 0;
+int last_f = 0;
+int last_b = 0;
+int last_l = 0;
+int last_r = 0;
 DigitalOut led1(LED1);
 
 // Vector3 feedbackLoop(const Quaternion &setpoint, const Quaternion &orientation, const Vector3 &velocity, const float pq, const float pw)
@@ -147,23 +155,55 @@ int main()
     }
 
     // Convert to micro seconds (for pwm)
-    f = (4 * f + 1500);
-    b = (4 * b + 1500);
-    l = (4 * l + 1500);
-    r = (4 * r + 1500);
-    fr = (4 * fr + 1500);
-    fl = (4 * fl + 1500);
-    br = (4 * br + 1500);
-    bl = (4 * bl + 1500);
+    f = (4 * f + 1492);
+    b = (4 * b + 1494);
+    l = (4 * l + 1491);
+    r = (4 * r + 1494);
+    fr = (4 * fr + 1492);
+    fl = (4 * fl + 1492);
+    br = (4 * br + 1491);
+    bl = (4 * bl + 1492);
     // printf("%d\n", fr);
-    f_pwm.pulsewidth_us(f);
-    b_pwm.pulsewidth_us(b);
-    l_pwm.pulsewidth_us(l);
-    r_pwm.pulsewidth_us(r);
-    fl_pwm.pulsewidth_us(fl);
-    fr_pwm.pulsewidth_us(fr);
-    bl_pwm.pulsewidth_us(bl);
-    br_pwm.pulsewidth_us(br);
+    if (last_f != f)
+    {
+      f_pwm.pulsewidth_us(f);
+      last_f = f;
+    }
+    if (last_b != b)
+    {
+      b_pwm.pulsewidth_us(b);
+      last_b = b;
+    }
+    if (last_l != l)
+    {
+      l_pwm.pulsewidth_us(l);
+      last_l = l;
+    }
+    if (last_r != r)
+    {
+      r_pwm.pulsewidth_us(r);
+      last_r = r;
+    }
+    if (last_fl != fl)
+    {
+      fl_pwm.pulsewidth_us(fl);
+      last_fl = fl;
+    }
+    if (last_fr != fr)
+    {
+      fr_pwm.pulsewidth_us(fr);
+      last_fr = fr;
+    }
+    if (last_bl != bl)
+    {
+      bl_pwm.pulsewidth_us(bl);
+      last_bl = bl;
+    }
+    if (last_br != br)
+    {
+      br_pwm.pulsewidth_us(br);
+      last_br = br;
+    }
   }
   // client_sock.close();
   // delete[] buffer;
