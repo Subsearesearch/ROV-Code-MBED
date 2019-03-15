@@ -8,10 +8,10 @@
 #include "Quaternion.h"
 
 PwmOut f_pwm(PB_15);
-PwmOut b_pwm(PA_6);
+PwmOut b_pwm(PC_8);
 PwmOut l_pwm(PD_14);
 PwmOut r_pwm(PD_15);
-PwmOut fl_pwm(PC_7);
+PwmOut fl_pwm(PC_9);
 PwmOut fr_pwm(PA_15);
 PwmOut bl_pwm(PC_6);
 PwmOut br_pwm(PB_5);
@@ -141,15 +141,19 @@ int main()
       fl -= x_rot;
       br += x_rot;
       bl += x_rot;
+      // Manual adjustments
+      fr *= 1.5;
+      fl *= 3;
+      bl *= 3;
       // make sure highest is 100
       int max;
       max = fmax(fmax(abs(fr), abs(fl)), fmax(abs(br), abs(bl)));
       if (max > 100)
       {
-        fr /= max;
-        fl /= max;
-        br /= max;
-        bl /= max;
+        fr /= (max / 100);
+        fl /= (max / 100);
+        br /= (max / 100);
+        bl /= (max / 100);
       }
       int f = 0;
       int b = 0;
@@ -167,15 +171,19 @@ int main()
       // y_lin (front and back, + is forward)
       l += y_lin;
       r += y_lin;
+      // Manual adjustments
+      r *= 1.5;
+      f *= 3;
+      b *= 3;
       // make sure highest is 100
       max = fmax(fmax(abs(f), abs(b)), fmax(abs(r), abs(l)));
 
       if (max > 100)
       {
-        f /= max;
-        b /= max;
-        r /= max;
-        l /= max;
+        f /= (max / 100);
+        b /= (max / 100);
+        r /= (max / 100);
+        l /= (max / 100);
       }
 
       // Convert to micro seconds (for pwm)
