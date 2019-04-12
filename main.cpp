@@ -6,6 +6,7 @@
 #include "MbedJSONValue.h"
 #include <string>
 #include "Quaternion.h"
+#include "DS1820.h"
 
 PwmOut f_pwm(PB_15);
 PwmOut b_pwm(PC_8);
@@ -24,6 +25,8 @@ int last_b = 0;
 int last_l = 0;
 int last_r = 0;
 DigitalOut led1(LED1);
+DS1820* probe;
+int checkTemp = 0;
 
 // Vector3 feedbackLoop(const Quaternion &setpoint, const Quaternion &orientation, const Vector3 &velocity, const float pq, const float pw)
 // {
@@ -48,6 +51,9 @@ int main()
   br_pwm.period_ms(20);
   // f_pwm.pulsewidth_us(1500);
   printf("Basic HTTP server example\n");
+  while(DS1820::unassignedProbe(PC_9)) {
+    probe = new DS1820(PC_9);
+  }
 
   EthernetInterface eth;
 
@@ -236,6 +242,14 @@ int main()
         br_pwm.pulsewidth_us(br);
         last_br = br;
       }
+    checkTemp++;
+    if (checkTemp % 10 == 1) {
+      probe[0].convertTemperature(false, DS1820::all_devices);
+      char * text;
+      sprintf(text, "Temperature is %3.1fC\r\n", probe[0].temperature());
+      strcpy(buffer, text);
+      client_sock.send(buffer, strlen(buffer));
+    }
     }
   }
   // client_sock.close();
