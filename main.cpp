@@ -147,10 +147,6 @@ int main()
       fl -= x_rot;
       br += x_rot;
       bl += x_rot;
-      // Manual adjustments
-      fr *= 1.5;
-      fl *= 3;
-      bl *= 3;
       // make sure highest is 100
       int max;
       max = fmax(fmax(abs(fr), abs(fl)), fmax(abs(br), abs(bl)));
@@ -177,10 +173,6 @@ int main()
       // y_lin (front and back, + is forward)
       l += y_lin;
       r += y_lin;
-      // Manual adjustments
-      r *= 1.5;
-      f *= 3;
-      b *= 3;
       // make sure highest is 100
       max = fmax(fmax(abs(f), abs(b)), fmax(abs(r), abs(l)));
 
