@@ -51,8 +51,8 @@ int main()
   br_pwm.period_ms(20);
   // f_pwm.pulsewidth_us(1500);
   printf("Basic HTTP server example\n");
-  while(DS1820::unassignedProbe(PC_9)) {
-    probe = new DS1820(PC_9);
+  while(DS1820::unassignedProbe(PB_9)) {
+    probe = new DS1820(PB_9);
   }
 
   EthernetInterface eth;
