@@ -127,6 +127,34 @@ int main()
       int x_rot = data["ctrl"]["xRot"].get<int>();
       int y_rot = data["ctrl"]["yRot"].get<int>();
       int z_rot = data["ctrl"]["zRot"].get<int>();
+      if (x_lin > 100 || x_lin < -100)
+      {
+        continue;
+      }
+      if (y_lin > 100 || y_lin < -100)
+      {
+        continue;
+      }
+      if (z_lin > 100 || z_lin < -100)
+      {
+        continue;
+      }
+      if (x_rot > 100 || x_rot < -100)
+      {
+        continue;
+      }
+      if (y_rot > 100 || y_rot < -100)
+      {
+        continue;
+      }
+      if (z_rot > 100 || z_rot < -100)
+      {
+        continue;
+      }
+      if (claw > 100 || claw < -100)
+      {
+        continue;
+      }
       // printf("%d\n", z_rot);
       int bl = 0;
       int br = 0;
