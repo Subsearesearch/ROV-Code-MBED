@@ -6,9 +6,7 @@
 #include "MbedJSONValue.h"
 #include <string>
 #include "Quaternion.h"
-#include "Stepper.h" //include the Stepper librariy
 
-Stepper stepper(PF_13, PE_11, PE_13, PG_14);
 PwmOut f_pwm(PB_15);
 PwmOut b_pwm(PC_8);
 PwmOut l_pwm(PD_14);
@@ -17,6 +15,10 @@ PwmOut fl_pwm(PC_9);
 PwmOut fr_pwm(PA_15);
 PwmOut bl_pwm(PC_6);
 PwmOut br_pwm(PB_5);
+// For claw
+DigitalOut claw_power(PE_11);
+DigitalOut claw_direcion(PG_14);
+DigitalOut claw_step(PE_13);
 int last_bl = 0;
 int last_br = 0;
 int last_fl = 0;
@@ -51,7 +53,6 @@ int main()
   br_pwm.period_ms(20);
   // f_pwm.pulsewidth_us(1500);
   printf("Basic HTTP server example\n");
-  stepper.Interval(0.0025);
 
   EthernetInterface eth;
 
@@ -267,28 +268,42 @@ int main()
         last_br = br;
       }
 
-      if (last_claw_speed != claw_speed)
-      {
-        stepper.Interval(0.01 - claw_speed * 0.000072);
-      }
 
       // Stepper for claw
       if (claw_direction == 1)
       {
-        // Open
-        stepper.Direction(false);
-        stepper.Run();
+        claw_power = 1;
+        claw_direcion = 1;
+        int steps = 0;
+        while (steps <= 40) {
+          claw_step = 1;
+          wait_us(25000);
+          claw_step = 0;
+          steps++;
+        }
       }
       else if (claw_direction == 2)
       {
-        // Close
-        stepper.Direction(true);
-        stepper.Run();
+        claw_power = 1;
+        claw_direcion = 0;
+        int steps = 0;
+        while (steps <= 40) {
+          claw_step = 1;
+          wait_us(25000);
+          claw_step = 0;
+          wait_us(25000);
+          steps++;
+        }
       }
       else
       {
-        stepper.Stop();
+        claw_step = 0;
+        claw_power = 0;
       }
+      // if (last_claw_speed != claw_speed)
+      // {
+
+      // }
     }
   }
   while (1)
