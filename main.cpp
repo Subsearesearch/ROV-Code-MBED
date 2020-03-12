@@ -18,7 +18,7 @@ PwmOut br_pwm(PB_5);
 // For claw
 DigitalOut claw_power(PE_11);
 DigitalOut claw_direcion(PG_14);
-DigitalOut claw_step(PE_13);
+PwmOut claw_step(PE_13);
 int last_bl = 0;
 int last_br = 0;
 int last_fl = 0;
@@ -51,6 +51,7 @@ int main()
   fr_pwm.period_ms(20);
   bl_pwm.period_ms(20);
   br_pwm.period_ms(20);
+  claw_step.period_ms(20);
   // f_pwm.pulsewidth_us(1500);
   printf("Basic HTTP server example\n");
 
@@ -275,30 +276,20 @@ int main()
         claw_power = 1;
         claw_direcion = 1;
         int steps = 0;
-        while (steps <= 40) {
-          claw_step = 1;
-          wait_us(25000);
-          claw_step = 0;
-          steps++;
-        }
+        claw_step.write(0.5);
       }
       else if (claw_direction == 2)
       {
         claw_power = 1;
         claw_direcion = 0;
         int steps = 0;
-        while (steps <= 40) {
-          claw_step = 1;
-          wait_us(25000);
-          claw_step = 0;
-          wait_us(25000);
-          steps++;
-        }
+        claw_step.write(0.5);
       }
       else
       {
         claw_step = 0;
         claw_power = 0;
+        claw_step.write(0);
       }
       // if (last_claw_speed != claw_speed)
       // {
